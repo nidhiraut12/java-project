@@ -1,0 +1,114 @@
+package libraryManagement;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Book class
+class Book {
+    String title;
+    String author;
+
+    // Constructor
+    Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
+    // Display book details
+    void display() {
+        System.out.println("Title: " + title + ", Author: " + author);
+    }
+}
+
+// Main class
+public class LibraryManagement {
+    public static void main(String[] args) {
+    	ArrayList<Book> library = new ArrayList<Book>();
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n--- Library Menu ---");
+            System.out.println("1. Add Book");
+            System.out.println("2. Remove Book");
+            System.out.println("3. Search Book");
+            System.out.println("4. Display All Books");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+
+            choice = sc.nextInt();
+            sc.nextLine(); // clear buffer
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter book title: ");
+                    String title = sc.nextLine();
+                    System.out.print("Enter author: ");
+                    String author = sc.nextLine();
+
+                    library.add(new Book(title, author));
+                    System.out.println("Book added successfully!");
+                    break;
+
+                case 2:
+                    System.out.print("Enter book title to remove: ");
+                    String removeTitle = sc.nextLine();
+                    boolean removed = false;
+
+                    for (int i = 0; i < library.size(); i++) {
+                        if (library.get(i).title.equalsIgnoreCase(removeTitle)) {
+                            library.remove(i);
+                            System.out.println("Book removed!");
+                            removed = true;
+                            break;
+                        }
+                    }
+
+                    if (!removed) {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter book title to search: ");
+                    String searchTitle = sc.nextLine();
+                    boolean found = false;
+
+                    for (Book b : library) {
+                        if (b.title.equalsIgnoreCase(searchTitle)) {
+                            System.out.println("Book Found:");
+                            b.display();
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+
+                case 4:
+                    if (library.isEmpty()) {
+                        System.out.println("No books available.");
+                    } else {
+                        System.out.println("\nAvailable Books:");
+                        for (Book b : library) {
+                            b.display();
+                        }
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Exiting program...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
